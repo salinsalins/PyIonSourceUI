@@ -1,6 +1,6 @@
 # coding: utf-8
 '''
-Created on Jul 2, 2017
+Created on Jul 28, 2019
 
 @author: sanin
 ''' 
@@ -35,8 +35,8 @@ import PyQt5.QtGui as QtGui
 import numpy as np
 from mplwidget import MplWidget
 
-progName = 'LoggerPlotterPy'
-progVersion = '_4_3'
+progName = 'PyIonSourceUI'
+progVersion = '_0_1'
 settingsFile = progName + '.json'
 
 # Configure logging
@@ -50,7 +50,6 @@ logger.addHandler(console_handler)
 
 # Global configuration dictionary
 config = {}
-
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -66,7 +65,7 @@ class MainWindow(QMainWindow):
         self.extra_cols = []
 
         # Load the UI
-        uic.loadUi('LoggerPlotter.ui', self)
+        uic.loadUi('PyIonSourceUI.ui', self)
 
         # Configure logging
         self.logger = logger
@@ -91,7 +90,7 @@ class MainWindow(QMainWindow):
         self.actionParameters.triggered.connect(self.show_param_pane)
         self.actionAbout.triggered.connect(self.showAbout)
 
-        # Additional configuration
+        # Additional decorations
         # Disable text wrapping in log window
         self.plainTextEdit.setLineWrapMode(0)
         # Clock label at status bar
@@ -99,29 +98,21 @@ class MainWindow(QMainWindow):
         self.clock.setFont(QFont('Open Sans Bold', 16, weight=QFont.Bold))
         self.statusBar().addPermanentWidget(self.clock)
 
-        self.setDefaultSettings()
-
         print(progName + progVersion + ' started')
 
+        self.setDefaultSettings()
         # Restore settings from default config file
-        self.restoreSettings()
-        
-        # Additional decorations
-        #self.tableWidget_3.horizontalHeader().
+        self.restore_settings()
         
         # Read data files
         self.parseFolder()
         
-        # Connect mouse button press event
-        #self.cid = self.mplWidget.canvas.mpl_connect('button_press_event', self.onclick)
-        #self.mplWidget.canvas.mpl_disconnect(cid)
-
     def refresh_on(self):
         self.refresh_flag = True
 
     def showAbout(self):
         QMessageBox.information(self, 'About', progName + ' Version ' + progVersion + 
-                                '\nPlot Logger traces and save shot logs.', QMessageBox.Ok)
+                                '\nUser interface programm to control Negative Ion Source stand.', QMessageBox.Ok)
 
     def showPlotPane(self):
         self.stackedWidget.setCurrentIndex(0)
@@ -447,13 +438,17 @@ class MainWindow(QMainWindow):
             self.printExceptionInfo(level=logging.DEBUG)
             return False
         
-    def restoreSettings(self, folder='', fileName=settingsFile) :
+    def restore_settings(self, folder='', fileName=settingsFile) :
         try :
+            global config
+            #fullName = 'PyIonSourceUI_config.py'
+            #config = eval(fullName)
+            #self.logger.log(logging.INFO, 'Configuration restored from %s'%fullName)
+            #return True
             fullName = os.path.join(str(folder), fileName)
             with open(fullName, 'r') as configfile:
                 s = configfile.read()
             self.conf = json.loads(s)
-            global config
             config = self.conf
             # Log level restore
             if 'log_level' in self.conf:
@@ -835,12 +830,6 @@ class TextEditHandler(logging.Handler):
         log_entry = self.format(record)
         if self.widget is not None:
             self.widget.appendPlainText(log_entry)
-
-class Config:
-    def __init__(self):
-        self.data = {}
-    def __getitem__(self, item):
-        return self.data[item]
 
 
 if __name__ == '__main__':
