@@ -1,0 +1,26 @@
+{
+    "main_window": {
+        "size": [
+            1209,
+            972
+        ],
+        "position": [
+            -1514,
+            1093
+        ]
+    },
+    "folder": "C:/Users/sanin/PycharmProjects/LoggerDumperPy/data/2019/2019-07/2019-07-17/2019-07-17.log",
+    "history": [
+        "C:/Users/sanin/PycharmProjects/LoggerDumperPy/data/2019/2019-07/2019-07-17/2019-07-17.log",
+        "C:/Users/sanin/Documents/2016/2016-06/2016-06-02/2016-06-02.log",
+        "C:/Users/sanin/Documents/2016/2016-06/2016-06-01/2016-06-01.log"
+    ],
+    "history_index": 0,
+    "included": "Time",
+    "excluded": "Shot\nFile",
+    "cb_1": false,
+    "cb_2": true,
+    "log_level": 10,
+    "extra_plot": "",
+    "extra_col": ""
+}
