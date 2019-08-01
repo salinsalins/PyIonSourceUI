@@ -464,7 +464,6 @@ class MainWindow(QMainWindow):
             if 'main_window' in self.conf:
                 self.resize(QSize(self.conf['main_window']['size'][0], self.conf['main_window']['size'][1]))
                 self.move(QPoint(self.conf['main_window']['position'][0], self.conf['main_window']['position'][1]))
-            # Last folder
             if 'folder' in self.conf:
                 self.logFileName = self.conf['folder']
             if 'included' in self.conf:
@@ -510,10 +509,7 @@ class MainWindow(QMainWindow):
             self.printExceptionInfo(level=logging.DEBUG)
             return False
 
-    def printExceptionInfo(self, level=logging.ERROR):
-        #excInfo = sys.exc_info()
-        #(tp, value) = sys.exc_info()[:2]
-        #self.logger.log(level, 'Exception %s %s'%(str(tp), str(value)))
+    def printExceptionInfo(self, level=logging.DEBUG):
         self.logger.log(level, "Exception ", exc_info=True)
 
     def is_locked(self):
@@ -537,14 +533,6 @@ class MainWindow(QMainWindow):
             return
         self.parseFolder()
         
-    def onClick(self, event):
-        print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %
-              ('double' if event.dblclick else 'single', event.button,
-               event.x, event.y, event.xdata, event.ydata))
-        #a = event.canvas.getParent()
-        #ntb = NavigationToolbar(event.canvas, a)
-        #a.addWidget(ntb)
-
 
 class LogTable():
     def __init__(self, file_name: str, folder: str = "", extra_cols: list = []) -> None:
