@@ -4,9 +4,6 @@ Created on Jul 28, 2019
 
 @author: sanin
 ''' 
-# used to parse files more easily
-#from __future__ import with_statement
-#from __future__ import print_function
 
 import os.path
 import sys
@@ -50,6 +47,7 @@ logger.addHandler(console_handler)
 
 # Global configuration dictionary
 config = {}
+
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
