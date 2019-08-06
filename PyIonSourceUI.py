@@ -33,6 +33,7 @@ import numpy as np
 from mplwidget import MplWidget
 
 progName = 'PyIonSourceUI'
+progNameShort = 'PyIonSourceUI'
 progVersion = '_0_1'
 settingsFile = progName + '.json'
 
@@ -83,10 +84,10 @@ class MainWindow(QMainWindow):
         # Menu actions connection
         self.actionQuit.triggered.connect(qApp.quit)
         self.actionOpen.triggered.connect(self.selectLogFile)
-        self.actionPlot.triggered.connect(self.showPlotPane)
+        self.actionPlot.triggered.connect(self.show_main_pane)
         self.actionLog.triggered.connect(self.show_log_pane)
         self.actionParameters.triggered.connect(self.show_param_pane)
-        self.actionAbout.triggered.connect(self.showAbout)
+        self.actionAbout.triggered.connect(self.show_about)
 
         # Additional decorations
         # Disable text wrapping in log window
@@ -108,11 +109,11 @@ class MainWindow(QMainWindow):
     def refresh_on(self):
         self.refresh_flag = True
 
-    def showAbout(self):
+    def show_about(self):
         QMessageBox.information(self, 'About', progName + ' Version ' + progVersion + 
                                 '\nUser interface programm to control Negative Ion Source stand.', QMessageBox.Ok)
 
-    def showPlotPane(self):
+    def show_main_pane(self):
         self.stackedWidget.setCurrentIndex(0)
         self.actionPlot.setChecked(True)
         self.actionLog.setChecked(False)
@@ -133,18 +134,7 @@ class MainWindow(QMainWindow):
         self.actionPlot.setChecked(False)
         self.actionLog.setChecked(False)
         self.actionParameters.setChecked(True)
-        self.tableWidget.horizontalHeader().setVisible(True)
-        # Decode global config
-        # clear table
-        self.tableWidget.setRowCount(0)
-        n = 0
-        for key in config:
-            self.tableWidget.insertRow(n)
-            item = QTableWidgetItem(str(key))
-            self.tableWidget.setItem(n, 0, item)
-            item = QTableWidgetItem(str(config[key]))
-            self.tableWidget.setItem(n, 1, item)
-            n += 1
+        #self.tableWidget.horizontalHeader().setVisible(True)
 
     def selectLogFile(self):
         """Opens a file select dialog"""
@@ -701,7 +691,7 @@ class LogTable():
 
     def __getitem__(self, item):
         return self.column[item]
-    
+
 
 class Signal:
     def __init__(self) -> None:
@@ -819,17 +809,17 @@ class TextEditHandler(logging.Handler):
 
 
 if __name__ == '__main__':
-    # create the GUI application
+    # Create the GUI application
     app = QApplication(sys.argv)
-    # instantiate the main window
+    # Instantiate the main window
     dmw = MainWindow()
     app.aboutToQuit.connect(dmw.onQuit)
-    # show it
+    # Show it
     dmw.show()
-    # defile and start timer task
+    # Defile and start timer task
     timer = QTimer()
     timer.timeout.connect(dmw.timer_handler)
     timer.start(1000)
-    # start the Qt main loop execution, exiting from this script
+    # Start the Qt main loop execution, exiting from this script
     # with the same return code of Qt application
     sys.exit(app.exec_())
