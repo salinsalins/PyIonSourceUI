@@ -134,10 +134,10 @@ class MainWindow(QMainWindow):
             p = self.pos()
             s = self.size()
             config['main_window'] = {'size':(s.width(), s.height()), 'position':(p.x(), p.y())}
-            config['comboBox_1'] = {'items':[str(self.comboBox_1.itemText(k)) for k in range(self.comboBox_1.count())],
-                                    'index':self.comboBox_1.currentIndex()}
-            config['plainTextEdit_1'] = str(self.plainTextEdit_1.toPlainText())
-            config['checkBox_1'] = self.checkBox_1.isChecked()
+            ##config['comboBox_1'] = {'items':[str(self.comboBox_1.itemText(k)) for k in range(self.comboBox_1.count())],
+            ##                        'index':self.comboBox_1.currentIndex()}
+            ##config['plainTextEdit_1'] = str(self.plainTextEdit_1.toPlainText())
+            ##config['checkBox_1'] = self.checkBox_1.isChecked()
             with open(file_name, 'w') as configfile:
                 configfile.write(json.dumps(config, indent=4))
             self.logger.info('Configuration saved to %s' % file_name)
