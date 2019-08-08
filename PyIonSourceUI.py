@@ -84,6 +84,9 @@ class MainWindow(QMainWindow):
         # Additional decorations
         # Disable text wrapping in log window
         self.plainTextEdit.setLineWrapMode(0)
+        #self.pushButton_2.setStyleSheet('QPushButton {background-color: red}')
+        #self.radioButton.setStyleSheet('QRadioButton {background-color: red}')
+        self.lineEdit.setStyleSheet('QLineEdit {background-color: red}')
         # Clock at status bar
         self.clock = QLabel(" ")
         self.clock.setFont(QFont('Open Sans Bold', 14, weight=QFont.Bold))
