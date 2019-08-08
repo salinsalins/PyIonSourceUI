@@ -87,6 +87,7 @@ class MainWindow(QMainWindow):
         #self.pushButton_2.setStyleSheet('QPushButton {background-color: red}')
         #self.radioButton.setStyleSheet('QRadioButton {background-color: red}')
         self.lineEdit.setStyleSheet('QLineEdit {background-color: red}')
+        self.doubleSpinBox_4.setSingleStep(0.1)
         # Clock at status bar
         self.clock = QLabel(" ")
         self.clock.setFont(QFont('Open Sans Bold', 14, weight=QFont.Bold))
