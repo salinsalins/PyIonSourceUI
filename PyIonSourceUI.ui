@@ -106,6 +106,9 @@
               <property name="topMargin">
                <number>0</number>
               </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
               <item row="7" column="0">
                <widget class="QCheckBox" name="checkBox_13">
                 <property name="text">

@@ -98,6 +98,16 @@ def set_state(obj, name, config=None):
         obj.setPlainText(config[name])
 
 
+class TDKLambdaPS:
+    def __init__(self, port='COM1:', addr=6):
+        self.port = port
+        self.addr = addr
+        self.timeout = time.time()
+        self.voltage = 0.0
+        self.current = 0.0
+        self.on = False
+
+
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         global logger, log_formatter
