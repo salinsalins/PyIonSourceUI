@@ -31,8 +31,11 @@
    <string>Emittance Plot Processing</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout_4">
-    <item row="0" column="0">
+   <layout class="QVBoxLayout" name="verticalLayout_11">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetMinimumSize</enum>
+    </property>
+    <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -52,7 +55,7 @@
          <number>0</number>
         </property>
         <property name="topMargin">
-         <number>0</number>
+         <number>9</number>
         </property>
         <property name="rightMargin">
          <number>0</number>
@@ -69,6 +72,9 @@
            <enum>QFrame::Raised</enum>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
+           <property name="sizeConstraint">
+            <enum>QLayout::SetMinimumSize</enum>
+           </property>
            <item>
             <widget class="QLabel" name="label_4">
              <property name="font">
@@ -481,8 +487,11 @@
              <property name="frameShadow">
               <enum>QFrame::Raised</enum>
              </property>
-             <layout class="QGridLayout" name="gridLayout_7">
-              <item row="0" column="0">
+             <layout class="QVBoxLayout" name="verticalLayout_9">
+              <property name="sizeConstraint">
+               <enum>QLayout::SetMinimumSize</enum>
+              </property>
+              <item>
                <widget class="QLabel" name="label_29">
                 <property name="font">
                  <font>
@@ -498,35 +507,27 @@
                 </property>
                </widget>
               </item>
-              <item row="1" column="0">
+              <item>
                <widget class="QFrame" name="frame_14">
                 <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
+                 <enum>QFrame::NoFrame</enum>
                 </property>
                 <property name="frameShadow">
                  <enum>QFrame::Raised</enum>
                 </property>
-                <layout class="QGridLayout" name="gridLayout_8">
-                 <item row="3" column="0">
-                  <widget class="QLabel" name="label_32">
-                   <property name="text">
-                    <string>T Out:</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="0">
-                  <widget class="QLabel" name="label_31">
-                   <property name="text">
-                    <string>T In:</string>
-                   </property>
-                   <property name="alignment">
-                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                   </property>
-                  </widget>
-                 </item>
+                <layout class="QGridLayout" name="gridLayout_7" rowminimumheight="0,0,0">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
                  <item row="0" column="0">
                   <widget class="QLabel" name="label_30">
                    <property name="text">
@@ -537,22 +538,24 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="2" column="1">
-                  <widget class="QLabel" name="label_33">
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_31">
                    <property name="text">
-                    <string>22.3 C</string>
+                    <string>T In:</string>
                    </property>
-                  </widget>
-                 </item>
-                 <item row="3" column="1">
-                  <widget class="QLabel" name="label_34">
-                   <property name="text">
-                    <string>24.5 C</string>
+                   <property name="alignment">
+                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                    </property>
                   </widget>
                  </item>
                  <item row="0" column="1">
                   <widget class="QDoubleSpinBox" name="doubleSpinBox">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="minimumSize">
                     <size>
                      <width>0</width>
@@ -562,7 +565,7 @@
                    <property name="maximumSize">
                     <size>
                      <width>16777215</width>
-                     <height>25</height>
+                     <height>16777215</height>
                     </size>
                    </property>
                    <property name="baseSize">
@@ -591,18 +594,54 @@
                    </property>
                   </widget>
                  </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_32">
+                   <property name="text">
+                    <string>T Out:</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QLabel" name="label_34">
+                   <property name="text">
+                    <string>24.5 C</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLabel" name="label_33">
+                   <property name="text">
+                    <string>22.3 C</string>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
                </widget>
               </item>
-              <item row="3" column="0">
+              <item>
                <widget class="QRadioButton" name="radioButton_2">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Valve</string>
                 </property>
                </widget>
               </item>
-              <item row="4" column="0">
+              <item>
                <widget class="QPushButton" name="pushButton_3">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
                  <string>Start</string>
                 </property>
@@ -633,6 +672,9 @@
               <enum>QFrame::Raised</enum>
              </property>
              <layout class="QGridLayout" name="gridLayout_9">
+              <property name="sizeConstraint">
+               <enum>QLayout::SetMinimumSize</enum>
+              </property>
               <item row="1" column="0">
                <widget class="QFrame" name="frame_16">
                 <property name="frameShape">
@@ -918,6 +960,89 @@
             <number>0</number>
            </property>
            <item>
+            <widget class="QFrame" name="frame_17">
+             <property name="frameShape">
+              <enum>QFrame::Box</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_10">
+              <item>
+               <widget class="QLabel" name="label_42">
+                <property name="font">
+                 <font>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Voltage</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignHCenter|Qt::AlignTop</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="frame_18">
+                <property name="frameShape">
+                 <enum>QFrame::Box</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_4">
+                 <item row="4" column="1">
+                  <widget class="QDoubleSpinBox" name="doubleSpinBox_14"/>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QDoubleSpinBox" name="doubleSpinBox_13"/>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QDoubleSpinBox" name="doubleSpinBox_12"/>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_45">
+                   <property name="text">
+                    <string>Plasma Grid</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_43">
+                   <property name="text">
+                    <string>Extraction</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QLabel" name="label_44">
+                   <property name="text">
+                    <string>Acceleration</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_6">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
             <widget class="QFrame" name="frame_6">
              <property name="frameShape">
               <enum>QFrame::Box</enum>
@@ -926,33 +1051,6 @@
               <enum>QFrame::Raised</enum>
              </property>
              <layout class="QGridLayout" name="gridLayout_3">
-              <item row="0" column="1">
-               <widget class="QLabel" name="label_2">
-                <property name="font">
-                 <font>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Oven 1</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QCheckBox" name="checkBox_16">
-                <property name="text">
-                 <string>Tube</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="2">
-               <widget class="QLabel" name="label_10">
-                <property name="text">
-                 <string>2.5 A</string>
-                </property>
-               </widget>
-              </item>
               <item row="1" column="3">
                <widget class="QLabel" name="label_3">
                 <property name="text">
@@ -967,17 +1065,10 @@
                 </property>
                </widget>
               </item>
-              <item row="2" column="2">
-               <widget class="QLabel" name="label_11">
+              <item row="1" column="0">
+               <widget class="QCheckBox" name="checkBox_16">
                 <property name="text">
-                 <string>TextLabel</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="3">
-               <widget class="QLabel" name="label_12">
-                <property name="text">
-                 <string>TextLabel</string>
+                 <string>Tube</string>
                 </property>
                </widget>
               </item>
@@ -995,24 +1086,10 @@
                 </property>
                </widget>
               </item>
-              <item row="3" column="3">
-               <widget class="QLabel" name="label_13">
-                <property name="text">
-                 <string>TextLabel</string>
-                </property>
-               </widget>
-              </item>
               <item row="4" column="0">
                <widget class="QCheckBox" name="checkBox_19">
                 <property name="text">
                  <string>CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="2">
-               <widget class="QLabel" name="label_15">
-                <property name="text">
-                 <string>TextLabel</string>
                 </property>
                </widget>
               </item>
@@ -1036,30 +1113,65 @@
                 </property>
                </widget>
               </item>
-              <item row="2" column="1">
-               <widget class="QDoubleSpinBox" name="doubleSpinBox_5"/>
+              <item row="2" column="2">
+               <widget class="QLabel" name="label_11">
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="2">
+               <widget class="QLabel" name="label_15">
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
               </item>
               <item row="3" column="1">
                <widget class="QDoubleSpinBox" name="doubleSpinBox_6"/>
               </item>
+              <item row="3" column="3">
+               <widget class="QLabel" name="label_13">
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+              </item>
               <item row="4" column="1">
                <widget class="QDoubleSpinBox" name="doubleSpinBox_7"/>
               </item>
+              <item row="0" column="1">
+               <widget class="QLabel" name="label_2">
+                <property name="font">
+                 <font>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Oven 1</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="3">
+               <widget class="QLabel" name="label_12">
+                <property name="text">
+                 <string>TextLabel</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="2">
+               <widget class="QLabel" name="label_10">
+                <property name="text">
+                 <string>2.5 A</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QDoubleSpinBox" name="doubleSpinBox_5"/>
+              </item>
              </layout>
             </widget>
-           </item>
-           <item>
-            <spacer name="verticalSpacer_6">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
            </item>
            <item>
             <widget class="QFrame" name="frame_7">
@@ -1219,7 +1331,7 @@
          <number>0</number>
         </property>
         <property name="topMargin">
-         <number>0</number>
+         <number>9</number>
         </property>
         <property name="rightMargin">
          <number>0</number>
@@ -1260,7 +1372,7 @@
          <number>3</number>
         </property>
         <property name="topMargin">
-         <number>3</number>
+         <number>9</number>
         </property>
         <property name="rightMargin">
          <number>3</number>

@@ -61,11 +61,8 @@ def print_exception_info(level=logging.DEBUG):
 
 def get_state(obj, name, config=None):
     global CONFIG
-    try:
-        if config is None:
-            config = CONFIG
-    except NameError:
-        config = {}
+    if config is None:
+        config = CONFIG
     if isinstance(obj, QLabel):
         config[name] = str(obj.text())
     if isinstance(obj, QComboBox):
@@ -81,17 +78,19 @@ def set_state(obj, name, config=None):
     global CONFIG
     if config is None:
         config = CONFIG
+
     if name not in config:
         return
 
     if isinstance(obj, QLabel):
         obj.setText(config[name])
     if isinstance(obj, QComboBox):
-        ###obj.setUpdatesEnabled(False)
+        obj.setUpdatesEnabled(False)
         obj.blockSignals(True)
         obj.clear()
         obj.addItems(config[name]['items'])
         obj.blockSignals(False)
+        obj.setUpdatesEnabled(True)
         obj.setCurrentIndex(config[name]['index'])
     if isinstance(obj, QCheckBox):
         obj.setChecked(config[name])
