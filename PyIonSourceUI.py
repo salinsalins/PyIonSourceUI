@@ -227,7 +227,7 @@ class MainWindow(QMainWindow):
             return True
         except :
             self.logger.log(logging.WARNING, 'Configuration restore error from %s' % file_name)
-            self.print_exception_info()
+            print_exception_info()
             return False
 
     def timer_handler(self):
