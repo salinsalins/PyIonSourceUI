@@ -59,10 +59,11 @@ def print_exception_info(level=logging.DEBUG):
     logger.log(level, "Exception ", exc_info=True)
 
 
-def get_state(obj, name, config=CONFIG):
+def get_state(obj, name, config=None):
+    global CONFIG
     try:
         if config is None:
-            config = {}
+            config = CONFIG
     except NameError:
         config = {}
     if isinstance(obj, QLabel):
@@ -76,7 +77,10 @@ def get_state(obj, name, config=CONFIG):
         config[name] = obj.toPlainText()
 
 
-def set_state(obj, name, config=CONFIG):
+def set_state(obj, name, config=None):
+    global CONFIG
+    if config is None:
+        config = CONFIG
     if name not in config:
         return
 
@@ -109,6 +113,7 @@ class MainWindow(QMainWindow):
         self.move(QPoint(50, 50))
         self.setWindowTitle(APPLICATION_NAME)  # Set a title
         self.setWindowIcon(QtGui.QIcon('icon.png'))
+
         # Additional logging config
         self.logger = logger
         text_edit_handler = TextEditHandler(self.plainTextEdit)
@@ -187,10 +192,7 @@ class MainWindow(QMainWindow):
             p = self.pos()
             s = self.size()
             CONFIG['main_window'] = {'size':(s.width(), s.height()), 'position':(p.x(), p.y())}
-            ##config['comboBox_1'] = {'items':[str(self.comboBox_1.itemText(k)) for k in range(self.comboBox_1.count())],
-            ##                        'index':self.comboBox_1.currentIndex()}
-            ##config['plainTextEdit_1'] = str(self.plainTextEdit_1.toPlainText())
-            ##config['checkBox_1'] = self.checkBox_1.isChecked()
+            get_state(self.comboBox_1, 'comboBox_1')
             with open(file_name, 'w') as configfile:
                 configfile.write(json.dumps(CONFIG, indent=4))
             self.logger.info('Configuration saved to %s' % file_name)

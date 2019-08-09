@@ -5,8 +5,19 @@
             600
         ],
         "position": [
-            737,
-            271
+            660,
+            235
         ]
+    },
+    "comboBox_1": {
+        "items": [
+            "NOTSET",
+            "DEBUG",
+            "INFO",
+            "WARNING",
+            "ERROR",
+            "CRITICAL"
+        ],
+        "index": 1
     }
 }
