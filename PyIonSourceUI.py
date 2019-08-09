@@ -21,6 +21,9 @@ from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QTableWidget
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtWidgets import QLabel
+from PyQt5.QtWidgets import QComboBox
+from PyQt5.QtWidgets import QCheckBox
+from PyQt5.QtWidgets import QPlainTextEdit
 from PyQt5 import uic
 from PyQt5.QtCore import QSize
 from PyQt5.QtCore import QPoint
@@ -36,7 +39,7 @@ from mplwidget import MplWidget
 ORGANIZATION_NAME = 'BINP'
 APPLICATION_NAME = 'PyIonSourceUI'
 APPLICATION_NAME_SHORT = 'PyIonSourceUI'
-APPLICATION_VERSION = '_0_1'
+APPLICATION_VERSION = '0_1'
 CONFIG_FILE = APPLICATION_NAME + '.json'
 
 # Configure logging
@@ -56,6 +59,42 @@ def print_exception_info(level=logging.DEBUG):
     logger.log(level, "Exception ", exc_info=True)
 
 
+def get_state(obj, name, config=CONFIG):
+    try:
+        if config is None:
+            config = {}
+    except NameError:
+        config = {}
+    if isinstance(obj, QLabel):
+        config[name] = str(obj.text())
+    if isinstance(obj, QComboBox):
+        config[name] = {'items': [str(obj.itemText(k)) for k in range(obj.count())],
+                        'index': obj.currentIndex()}
+    if isinstance(obj, QCheckBox):
+        config[name] = obj.isChecked()
+    if isinstance(obj, QPlainTextEdit):
+        config[name] = obj.toPlainText()
+
+
+def set_state(obj, name, config=CONFIG):
+    if name not in config:
+        return
+
+    if isinstance(obj, QLabel):
+        obj.setText(config[name])
+    if isinstance(obj, QComboBox):
+        ###obj.setUpdatesEnabled(False)
+        obj.blockSignals(True)
+        obj.clear()
+        obj.addItems(config[name]['items'])
+        obj.blockSignals(False)
+        obj.setCurrentIndex(config[name]['index'])
+    if isinstance(obj, QCheckBox):
+        obj.setChecked(config[name])
+    if isinstance(obj, QPlainTextEdit):
+        obj.setPlainText(config[name])
+
+
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         global logger, log_formatter
@@ -69,7 +108,7 @@ class MainWindow(QMainWindow):
         self.resize(QSize(640, 480))
         self.move(QPoint(50, 50))
         self.setWindowTitle(APPLICATION_NAME)  # Set a title
-
+        self.setWindowIcon(QtGui.QIcon('icon.png'))
         # Additional logging config
         self.logger = logger
         text_edit_handler = TextEditHandler(self.plainTextEdit)
@@ -104,7 +143,7 @@ class MainWindow(QMainWindow):
         self.clock.setFont(QFont('Open Sans Bold', 14, weight=QFont.Bold))
         self.statusBar().addPermanentWidget(self.clock)
 
-        print(APPLICATION_NAME + APPLICATION_VERSION + ' started')
+        print(APPLICATION_NAME + ' version ' + APPLICATION_VERSION + ' started')
 
         self.restore_settings()
 
@@ -181,20 +220,12 @@ class MainWindow(QMainWindow):
             if 'main_window' in CONFIG:
                 self.resize(QSize(CONFIG['main_window']['size'][0], CONFIG['main_window']['size'][1]))
                 self.move(QPoint(CONFIG['main_window']['position'][0], CONFIG['main_window']['position'][1]))
-            if 'plainTextEdit_1' in CONFIG:
-                self.plainTextEdit_1.setPlainText(CONFIG['plainTextEdit_1'])
-            if 'checkBox_1' in CONFIG:
-                self.checkBox_1.setChecked(CONFIG['checkBox_1'])
-            if 'comboBox_1' in CONFIG:
-                #self.comboBox_1.currentIndexChanged.disconnect(self.fileSelectionChanged)
-                self.comboBox_1.clear()
-                self.comboBox_1.addItems(CONFIG['comboBox_1']['items'])
-                #self.comboBox_1.currentIndexChanged.connect(self.fileSelectionChanged)
-                self.comboBox_1.setCurrentIndex(CONFIG['comboBox_1']['index'])
+            #set_state(self.plainTextEdit_1, 'plainTextEdit_1')
+            set_state(self.comboBox_1, 'comboBox_1')
             self.logger.log(logging.INFO, 'Configuration restored from %s' % file_name)
             return True
         except :
-            self.logger.log(logging.WARNING, 'Configuration restore error from %s'%fullName)
+            self.logger.log(logging.WARNING, 'Configuration restore error from %s' % file_name)
             self.print_exception_info()
             return False
 
