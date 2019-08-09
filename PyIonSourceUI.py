@@ -12,6 +12,7 @@ import logging
 import zipfile
 import time
 
+from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import qApp
@@ -20,6 +21,9 @@ from PyQt5.QtWidgets import QTableWidgetItem
 from PyQt5.QtWidgets import QTableWidget
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtWidgets import QLabel
+from PyQt5.QtWidgets import QComboBox
+from PyQt5.QtWidgets import QCheckBox
+from PyQt5.QtWidgets import QPlainTextEdit
 from PyQt5 import uic
 from PyQt5.QtCore import QSize
 from PyQt5.QtCore import QPoint
@@ -32,10 +36,11 @@ import PyQt5.QtGui as QtGui
 import numpy as np
 from mplwidget import MplWidget
 
-progName = 'PyIonSourceUI'
-progNameShort = 'PyIonSourceUI'
-progVersion = '_0_1'
-settingsFile = progName + '.json'
+ORGANIZATION_NAME = 'BINP'
+APPLICATION_NAME = 'PyIonSourceUI'
+APPLICATION_NAME_SHORT = 'PyIonSourceUI'
+APPLICATION_VERSION = '0_1'
+CONFIG_FILE = APPLICATION_NAME + '.json'
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -47,11 +52,51 @@ console_handler.setFormatter(log_formatter)
 logger.addHandler(console_handler)
 
 # Global configuration dictionary
-config = {}
+CONFIG = {}
 
 
 def print_exception_info(level=logging.DEBUG):
     logger.log(level, "Exception ", exc_info=True)
+
+
+def get_state(obj, name, config=None):
+    global CONFIG
+    try:
+        if config is None:
+            config = CONFIG
+    except NameError:
+        config = {}
+    if isinstance(obj, QLabel):
+        config[name] = str(obj.text())
+    if isinstance(obj, QComboBox):
+        config[name] = {'items': [str(obj.itemText(k)) for k in range(obj.count())],
+                        'index': obj.currentIndex()}
+    if isinstance(obj, QCheckBox):
+        config[name] = obj.isChecked()
+    if isinstance(obj, QPlainTextEdit):
+        config[name] = obj.toPlainText()
+
+
+def set_state(obj, name, config=None):
+    global CONFIG
+    if config is None:
+        config = CONFIG
+    if name not in config:
+        return
+
+    if isinstance(obj, QLabel):
+        obj.setText(config[name])
+    if isinstance(obj, QComboBox):
+        ###obj.setUpdatesEnabled(False)
+        obj.blockSignals(True)
+        obj.clear()
+        obj.addItems(config[name]['items'])
+        obj.blockSignals(False)
+        obj.setCurrentIndex(config[name]['index'])
+    if isinstance(obj, QCheckBox):
+        obj.setChecked(config[name])
+    if isinstance(obj, QPlainTextEdit):
+        obj.setPlainText(config[name])
 
 
 class MainWindow(QMainWindow):
@@ -59,16 +104,26 @@ class MainWindow(QMainWindow):
         global logger, log_formatter
         # Initialization of the superclass
         super(MainWindow, self).__init__(parent)
-        # Class members definition
-        self.refresh_flag = False
-        self.last_selection = -1
+
         # Load the UI
         uic.loadUi('PyIonSourceUI.ui', self)
-        # Configure logging
+        # Default window parameters
+        self.setMinimumSize(QSize(480, 240))  # Set sizes
+        self.resize(QSize(640, 480))
+        self.move(QPoint(50, 50))
+        self.setWindowTitle(APPLICATION_NAME)  # Set a title
+        self.setWindowIcon(QtGui.QIcon('icon.png'))
+
+        # Additional logging config
         self.logger = logger
         text_edit_handler = TextEditHandler(self.plainTextEdit)
         text_edit_handler.setFormatter(log_formatter)
         self.logger.addHandler(text_edit_handler)
+
+        # Class members definition
+        self.refresh_flag = False
+        self.last_selection = -1
+
         # Connect signals with slots
         ##self.pushButton_1.clicked.connect(self.selectLogFile)
         ##self.comboBox_1.currentIndexChanged.connect(self.logLevelIndexChanged)
@@ -93,13 +148,12 @@ class MainWindow(QMainWindow):
         self.clock.setFont(QFont('Open Sans Bold', 14, weight=QFont.Bold))
         self.statusBar().addPermanentWidget(self.clock)
 
-        print(progName + progVersion + ' started')
+        print(APPLICATION_NAME + ' version ' + APPLICATION_VERSION + ' started')
 
-        self.set_default_settings()
         self.restore_settings()
 
     def show_about(self):
-        QMessageBox.information(self, 'About', progName + ' Version ' + progVersion + 
+        QMessageBox.information(self, 'About', APPLICATION_NAME + ' Version ' + APPLICATION_VERSION +
                                 '\nUser interface programm to control Negative Ion Source stand.', QMessageBox.Ok)
 
     def show_main_pane(self):
@@ -131,19 +185,16 @@ class MainWindow(QMainWindow):
         self.save_settings()
         timer.stop()
         
-    def save_settings(self, file_name=settingsFile) :
-        global config
+    def save_settings(self, file_name=CONFIG_FILE) :
+        global CONFIG
         try:
             # Save window size and position
             p = self.pos()
             s = self.size()
-            config['main_window'] = {'size':(s.width(), s.height()), 'position':(p.x(), p.y())}
-            ##config['comboBox_1'] = {'items':[str(self.comboBox_1.itemText(k)) for k in range(self.comboBox_1.count())],
-            ##                        'index':self.comboBox_1.currentIndex()}
-            ##config['plainTextEdit_1'] = str(self.plainTextEdit_1.toPlainText())
-            ##config['checkBox_1'] = self.checkBox_1.isChecked()
+            CONFIG['main_window'] = {'size':(s.width(), s.height()), 'position':(p.x(), p.y())}
+            get_state(self.comboBox_1, 'comboBox_1')
             with open(file_name, 'w') as configfile:
-                configfile.write(json.dumps(config, indent=4))
+                configfile.write(json.dumps(CONFIG, indent=4))
             self.logger.info('Configuration saved to %s' % file_name)
             return True
         except :
@@ -151,15 +202,15 @@ class MainWindow(QMainWindow):
             self.print_exception_info()
             return False
         
-    def restore_settings(self, file_name=settingsFile) :
-        global config
+    def restore_settings(self, file_name=CONFIG_FILE) :
+        global CONFIG
         try :
             with open(file_name, 'r') as configfile:
                 s = configfile.read()
-            config = json.loads(s)
+            CONFIG = json.loads(s)
             # Restore log level
-            if 'log_level' in config:
-                v = config['log_level']
+            if 'log_level' in CONFIG:
+                v = CONFIG['log_level']
                 self.logger.setLevel(v)
                 levels = [logging.NOTSET, logging.DEBUG, logging.INFO,
                           logging.WARNING, logging.ERROR, logging.CRITICAL, logging.CRITICAL+10]
@@ -168,38 +219,15 @@ class MainWindow(QMainWindow):
                         break
                 self.comboBox_1.setCurrentIndex(m-1)
             # Restore window size and position
-            if 'main_window' in config:
-                self.resize(QSize(config['main_window']['size'][0], config['main_window']['size'][1]))
-                self.move(QPoint(config['main_window']['position'][0], config['main_window']['position'][1]))
-            if 'plainTextEdit_1' in config:
-                self.plainTextEdit_1.setPlainText(config['plainTextEdit_1'])
-            if 'checkBox_1' in config:
-                self.checkBox_1.setChecked(config['checkBox_1'])
-            if 'comboBox_1' in config:
-                #self.comboBox_1.currentIndexChanged.disconnect(self.fileSelectionChanged)
-                self.comboBox_1.clear()
-                self.comboBox_1.addItems(config['comboBox_1']['items'])
-                #self.comboBox_1.currentIndexChanged.connect(self.fileSelectionChanged)
-                self.comboBox_1.setCurrentIndex(config['comboBox_1']['index'])
+            if 'main_window' in CONFIG:
+                self.resize(QSize(CONFIG['main_window']['size'][0], CONFIG['main_window']['size'][1]))
+                self.move(QPoint(CONFIG['main_window']['position'][0], CONFIG['main_window']['position'][1]))
+            #set_state(self.plainTextEdit_1, 'plainTextEdit_1')
+            set_state(self.comboBox_1, 'comboBox_1')
             self.logger.log(logging.INFO, 'Configuration restored from %s' % file_name)
             return True
         except :
-            self.logger.log(logging.WARNING, 'Configuration restore error from %s'%fullName)
-            self.print_exception_info()
-            return False
-
-    def set_default_settings(self) :
-        global config
-        try :
-            # Window size and position
-            self.resize(QSize(640, 480))
-            self.move(QPoint(0, 0))
-            self.logFileName = None
-            config = {}
-            return True
-        except :
-            # Print error info
-            self.logger.log(logging.WARNING, 'Default configuration error')
+            self.logger.log(logging.WARNING, 'Configuration restore error from %s' % file_name)
             self.print_exception_info()
             return False
 

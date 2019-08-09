@@ -1,12 +1,23 @@
 {
     "main_window": {
         "size": [
-            1003,
-            727
+            872,
+            600
         ],
         "position": [
-            -1553,
-            1187
+            527,
+            257
         ]
+    },
+    "comboBox_1": {
+        "items": [
+            "NOTSET",
+            "DEBUG",
+            "INFO",
+            "WARNING",
+            "ERROR",
+            "CRITICAL"
+        ],
+        "index": 1
     }
 }
