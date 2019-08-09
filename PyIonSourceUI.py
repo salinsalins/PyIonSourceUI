@@ -12,6 +12,7 @@ import logging
 import zipfile
 import time
 
+from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import qApp
@@ -32,10 +33,11 @@ import PyQt5.QtGui as QtGui
 import numpy as np
 from mplwidget import MplWidget
 
-progName = 'PyIonSourceUI'
-progNameShort = 'PyIonSourceUI'
-progVersion = '_0_1'
-settingsFile = progName + '.json'
+ORGANIZATION_NAME = 'BINP'
+APPLICATION_NAME = 'PyIonSourceUI'
+APPLICATION_NAME_SHORT = 'PyIonSourceUI'
+APPLICATION_VERSION = '_0_1'
+CONFIG_FILE = APPLICATION_NAME + '.json'
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -93,13 +95,13 @@ class MainWindow(QMainWindow):
         self.clock.setFont(QFont('Open Sans Bold', 14, weight=QFont.Bold))
         self.statusBar().addPermanentWidget(self.clock)
 
-        print(progName + progVersion + ' started')
+        print(APPLICATION_NAME + APPLICATION_VERSION + ' started')
 
         self.set_default_settings()
         self.restore_settings()
 
     def show_about(self):
-        QMessageBox.information(self, 'About', progName + ' Version ' + progVersion + 
+        QMessageBox.information(self, 'About', APPLICATION_NAME + ' Version ' + APPLICATION_VERSION +
                                 '\nUser interface programm to control Negative Ion Source stand.', QMessageBox.Ok)
 
     def show_main_pane(self):
@@ -131,7 +133,7 @@ class MainWindow(QMainWindow):
         self.save_settings()
         timer.stop()
         
-    def save_settings(self, file_name=settingsFile) :
+    def save_settings(self, file_name=CONFIG_FILE) :
         global config
         try:
             # Save window size and position
@@ -151,7 +153,7 @@ class MainWindow(QMainWindow):
             self.print_exception_info()
             return False
         
-    def restore_settings(self, file_name=settingsFile) :
+    def restore_settings(self, file_name=CONFIG_FILE) :
         global config
         try :
             with open(file_name, 'r') as configfile:
