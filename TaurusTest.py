@@ -5,7 +5,7 @@ from taurus.external.qt import Qt
 from taurus.qt.qtgui.application import TaurusApplication
 from taurus.qt.qtgui.panel import TaurusModelChooser
 
-from taurus.qt.qtgui.display import TaurusLabel
+from taurus.qt.qtgui.display import TaurusLabel, TaurusLed, LedStatus
 from taurus.qt.qtgui.input import TaurusValueLineEdit, TaurusValueCheckBox, TaurusWheelEdit, TaurusValueSpinBox
 
 
@@ -17,8 +17,8 @@ panel.setLayout(layout)
 
 #TaurusModelChooser() #
 w1 = TaurusLabel()
-w2 = TaurusLabel()
-w3 = TaurusValueCheckBox() # or TaurusValueSpinBox or TaurusWheelEdit
+w2 = TaurusLed()
+w3 = TaurusValueCheckBox()   # or TaurusValueSpinBox or TaurusWheelEdit
 w4 = TaurusLabel()
 layout.addWidget(w1)
 layout.addWidget(w2)
