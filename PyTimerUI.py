@@ -12,6 +12,7 @@ import logging
 import zipfile
 import time
 
+import PyQt5
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QApplication
@@ -74,10 +75,12 @@ def get_state(obj, name, config=None):
         config[name] = obj.toPlainText()
 
 
-def set_state(obj, name, config=None):
+def set_state(obj: PyQt5.QtWidgets.QWidget, name=None, config=None):
     global CONFIG
     if config is None:
         config = CONFIG
+    if name is None:
+        name = obj.objectName()
 
     if name not in config:
         return
@@ -217,6 +220,7 @@ class MainWindow(QMainWindow):
             with open(file_name, 'r') as configfile:
                 s = configfile.read()
             CONFIG = json.loads(s)
+
             # Restore log level
             if 'log_level' in CONFIG:
                 v = CONFIG['log_level']
@@ -227,11 +231,12 @@ class MainWindow(QMainWindow):
                     if v < levels[m]:
                         break
                 self.comboBox_1.setCurrentIndex(m-1)
-            # Restore window size and position
+
+            # Restore main window size and position
             if 'main_window' in CONFIG:
                 self.resize(QSize(CONFIG['main_window']['size'][0], CONFIG['main_window']['size'][1]))
                 self.move(QPoint(CONFIG['main_window']['position'][0], CONFIG['main_window']['position'][1]))
-            #set_state(self.plainTextEdit_1, 'plainTextEdit_1')
+
             set_state(self.comboBox_1, 'comboBox_1')
             self.logger.log(logging.INFO, 'Configuration restored from %s' % file_name)
             return True
