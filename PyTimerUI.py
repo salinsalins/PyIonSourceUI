@@ -60,10 +60,13 @@ def print_exception_info(level=logging.DEBUG):
     logger.log(level, "Exception ", exc_info=True)
 
 
-def get_state(obj, name, config=None):
+def get_state(obj: PyQt5.QtWidgets.QWidget, name=None, config=None):
     global CONFIG
     if config is None:
         config = CONFIG
+    if name is None:
+        name = obj.objectName()
+
     if isinstance(obj, QLabel):
         config[name] = str(obj.text())
     if isinstance(obj, QComboBox):
@@ -105,7 +108,7 @@ class TDKLambdaPS:
     def __init__(self, port='COM1:', addr=6):
         self.port = port
         self.addr = addr
-        self.timeout = time.time()
+        self.time = time.time()
         self.voltage = 0.0
         self.current = 0.0
         self.on = False
@@ -204,14 +207,14 @@ class MainWindow(QMainWindow):
             p = self.pos()
             s = self.size()
             CONFIG['main_window'] = {'size':(s.width(), s.height()), 'position':(p.x(), p.y())}
-            get_state(self.comboBox_1, 'comboBox_1')
+            #get_state(self.comboBox_1, 'comboBox_1')
             with open(file_name, 'w') as configfile:
                 configfile.write(json.dumps(CONFIG, indent=4))
             self.logger.info('Configuration saved to %s' % file_name)
             return True
         except :
             self.logger.log(logging.WARNING, 'Configuration save error to %s' % file_name)
-            self.print_exception_info()
+            print_exception_info()
             return False
         
     def restore_settings(self, file_name=CONFIG_FILE) :
@@ -237,7 +240,7 @@ class MainWindow(QMainWindow):
                 self.resize(QSize(CONFIG['main_window']['size'][0], CONFIG['main_window']['size'][1]))
                 self.move(QPoint(CONFIG['main_window']['position'][0], CONFIG['main_window']['position'][1]))
 
-            set_state(self.comboBox_1, 'comboBox_1')
+            #set_state(self.comboBox_1, 'comboBox_1')
             self.logger.log(logging.INFO, 'Configuration restored from %s' % file_name)
             return True
         except :
