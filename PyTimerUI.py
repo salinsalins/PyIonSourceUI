@@ -32,6 +32,7 @@ from PyQt5.QtGui import QColor
 from PyQt5.QtGui import QBrush
 from PyQt5.QtGui import QFont
 import PyQt5.QtGui as QtGui
+import PyQt5
 
 from taurus.external.qt import Qt
 from taurus.qt.qtgui.application import TaurusApplication

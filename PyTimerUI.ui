@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>642</height>
+    <height>761</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -977,6 +977,9 @@
                 <property name="model">
                  <string>ET7000_server/test/1/do00</string>
                 </property>
+                <property name="showText">
+                 <bool>true</bool>
+                </property>
                </widget>
               </item>
              </layout>
@@ -1148,7 +1151,7 @@
      <x>0</x>
      <y>0</y>
      <width>400</width>
-     <height>23</height>
+     <height>34</height>
     </rect>
    </property>
    <property name="font">
