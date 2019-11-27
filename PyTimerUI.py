@@ -33,10 +33,6 @@ from PyQt5.QtGui import QBrush
 from PyQt5.QtGui import QFont
 import PyQt5.QtGui as QtGui
 
-import numpy as np
-
-import taurus
-import tango
 from taurus.external.qt import Qt
 from taurus.qt.qtgui.application import TaurusApplication
 from taurus.qt.qtgui.display import TaurusLabel
