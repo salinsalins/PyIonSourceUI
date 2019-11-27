@@ -33,7 +33,13 @@ from PyQt5.QtGui import QBrush
 from PyQt5.QtGui import QFont
 import PyQt5.QtGui as QtGui
 
+import numpy as np
+
 import taurus
+import tango
+from taurus.external.qt import Qt
+from taurus.qt.qtgui.application import TaurusApplication
+from taurus.qt.qtgui.display import TaurusLabel
 
 ORGANIZATION_NAME = 'BINP'
 APPLICATION_NAME = 'PyTimerUI'
@@ -62,6 +68,9 @@ def get_state(obj, name, config=None):
     global CONFIG
     if config is None:
         config = CONFIG
+    if name is None:
+        name = obj.objectName()
+
     if isinstance(obj, QLabel):
         config[name] = str(obj.text())
     if isinstance(obj, QComboBox):
@@ -73,10 +82,12 @@ def get_state(obj, name, config=None):
         config[name] = obj.toPlainText()
 
 
-def set_state(obj, name, config=None):
+def set_state(obj: PyQt5.QtWidgets.QWidget, name=None, config=None):
     global CONFIG
     if config is None:
         config = CONFIG
+    if name is None:
+        name = obj.objectName()
 
     if name not in config:
         return
