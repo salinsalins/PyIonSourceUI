@@ -33,8 +33,7 @@ from PyQt5.QtGui import QBrush
 from PyQt5.QtGui import QFont
 import PyQt5.QtGui as QtGui
 
-import numpy as np
-from mplwidget import MplWidget
+import taurus
 
 ORGANIZATION_NAME = 'BINP'
 APPLICATION_NAME = 'PyTimerUI'
@@ -102,7 +101,7 @@ class TDKLambdaPS:
     def __init__(self, port='COM1:', addr=6):
         self.port = port
         self.addr = addr
-        self.timeout = time.time()
+        self.time = time.time()
         self.voltage = 0.0
         self.current = 0.0
         self.on = False
