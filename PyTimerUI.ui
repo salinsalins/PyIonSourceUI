@@ -70,7 +70,7 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="tabWidgetPage1" native="true">
+      <widget class="QWidget" name="tabWidgetPage1">
        <attribute name="title">
         <string notr="true">Timer</string>
        </attribute>
@@ -299,31 +299,6 @@
                  </size>
                 </property>
                </spacer>
-              </item>
-              <item row="1" column="0">
-               <widget class="QCheckBox" name="checkBox_1">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>100</width>
-                  <height>25</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>100</width>
-                  <height>25</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>CheckBox</string>
-                </property>
-               </widget>
               </item>
               <item row="3" column="0">
                <widget class="QCheckBox" name="checkBox_5">
@@ -997,6 +972,13 @@
                 </property>
                </widget>
               </item>
+              <item row="1" column="0">
+               <widget class="TaurusValueCheckBox" name="taurusValueCheckBox">
+                <property name="model">
+                 <string>ET7000_server/test/1/di00</string>
+                </property>
+               </widget>
+              </item>
              </layout>
             </widget>
            </item>
@@ -1018,7 +1000,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabWidgetPage3" native="true">
+      <widget class="QWidget" name="tabWidgetPage3">
        <attribute name="title">
         <string notr="true">Config</string>
        </attribute>
@@ -1115,7 +1097,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabWidgetPage2" native="true">
+      <widget class="QWidget" name="tabWidgetPage2">
        <attribute name="title">
         <string notr="true">Log</string>
        </attribute>
@@ -1267,6 +1249,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TaurusValueCheckBox</class>
+   <extends>QCheckBox</extends>
+   <header>taurus.qt.qtgui.input</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

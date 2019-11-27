@@ -35,7 +35,12 @@ from PyQt5.QtGui import QFont
 import PyQt5.QtGui as QtGui
 
 import numpy as np
-from mplwidget import MplWidget
+
+import taurus
+import tango
+from taurus.external.qt import Qt
+from taurus.qt.qtgui.application import TaurusApplication
+from taurus.qt.qtgui.display import TaurusLabel
 
 ORGANIZATION_NAME = 'BINP'
 APPLICATION_NAME = 'PyTimerUI'
@@ -267,7 +272,8 @@ class TextEditHandler(logging.Handler):
 
 if __name__ == '__main__':
     # Create the GUI application
-    app = QApplication(sys.argv)
+    #app = QApplication(sys.argv)
+    app = TaurusApplication(sys.argv, cmd_line_parser=None, )
     # Instantiate the main window
     dmw = MainWindow()
     app.aboutToQuit.connect(dmw.onQuit)
