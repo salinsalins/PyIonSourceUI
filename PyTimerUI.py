@@ -12,7 +12,6 @@ import logging
 import zipfile
 import time
 
-import PyQt5
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtWidgets import QApplication
@@ -33,11 +32,8 @@ from PyQt5.QtGui import QColor
 from PyQt5.QtGui import QBrush
 from PyQt5.QtGui import QFont
 import PyQt5.QtGui as QtGui
+import PyQt5
 
-import numpy as np
-
-import taurus
-import tango
 from taurus.external.qt import Qt
 from taurus.qt.qtgui.application import TaurusApplication
 from taurus.qt.qtgui.display import TaurusLabel
@@ -65,7 +61,7 @@ def print_exception_info(level=logging.DEBUG):
     logger.log(level, "Exception ", exc_info=True)
 
 
-def get_state(obj: PyQt5.QtWidgets.QWidget, name=None, config=None):
+def get_state(obj, name, config=None):
     global CONFIG
     if config is None:
         config = CONFIG
@@ -212,14 +208,14 @@ class MainWindow(QMainWindow):
             p = self.pos()
             s = self.size()
             CONFIG['main_window'] = {'size':(s.width(), s.height()), 'position':(p.x(), p.y())}
-            #get_state(self.comboBox_1, 'comboBox_1')
+            get_state(self.comboBox_1, 'comboBox_1')
             with open(file_name, 'w') as configfile:
                 configfile.write(json.dumps(CONFIG, indent=4))
             self.logger.info('Configuration saved to %s' % file_name)
             return True
         except :
             self.logger.log(logging.WARNING, 'Configuration save error to %s' % file_name)
-            print_exception_info()
+            self.print_exception_info()
             return False
         
     def restore_settings(self, file_name=CONFIG_FILE) :
@@ -228,7 +224,6 @@ class MainWindow(QMainWindow):
             with open(file_name, 'r') as configfile:
                 s = configfile.read()
             CONFIG = json.loads(s)
-
             # Restore log level
             if 'log_level' in CONFIG:
                 v = CONFIG['log_level']
@@ -239,13 +234,12 @@ class MainWindow(QMainWindow):
                     if v < levels[m]:
                         break
                 self.comboBox_1.setCurrentIndex(m-1)
-
-            # Restore main window size and position
+            # Restore window size and position
             if 'main_window' in CONFIG:
                 self.resize(QSize(CONFIG['main_window']['size'][0], CONFIG['main_window']['size'][1]))
                 self.move(QPoint(CONFIG['main_window']['position'][0], CONFIG['main_window']['position'][1]))
-
-            #set_state(self.comboBox_1, 'comboBox_1')
+            #set_state(self.plainTextEdit_1, 'plainTextEdit_1')
+            set_state(self.comboBox_1, 'comboBox_1')
             self.logger.log(logging.INFO, 'Configuration restored from %s' % file_name)
             return True
         except :
@@ -272,8 +266,7 @@ class TextEditHandler(logging.Handler):
 
 if __name__ == '__main__':
     # Create the GUI application
-    #app = QApplication(sys.argv)
-    app = TaurusApplication(sys.argv, cmd_line_parser=None, )
+    app = QApplication(sys.argv)
     # Instantiate the main window
     dmw = MainWindow()
     app.aboutToQuit.connect(dmw.onQuit)
